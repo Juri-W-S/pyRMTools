@@ -1,3 +1,10 @@
+import numpy as np
+from pymongo import MongoClient
+
+client = MongoClient('mongodb://localhost:27017/')
+db = client['quasar_db']
+objects = db.objects
+
 REFERENCE_TO_LINK = {
     "Shen2024": "https://iopscience.iop.org/article/10.3847/1538-4365/ad3936/pdf",
     "Kaspi2000": "https://iopscience.iop.org/article/10.1086/308704/pdf",
