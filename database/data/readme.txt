@@ -2,7 +2,8 @@ General notes:
 
 Luminosity measurements where the value was given in logarithmic units have the higher error threshold in the database instead of asymetric ones. E.g. McDougall2025
 error is calculated as 10^(43.31+0.01) - 10^(43.31). So in some cases, e.g. Bentz2013 the error is exaggerated towards the lower end.
-Bai2026 is refered to Bai2025 because the data was put into the database before it was published in 2026
+Bai2026 is refered to Bai2025 because the data was put into the database before it was published in 2026.
+All mass measurements, that use an average virial coefficient are flagged as problematic.
 
 
 
@@ -13,10 +14,12 @@ Shen2024: DB source link: https://iopscience.iop.org/article/10.3847/1538-4365/a
 			flux limited sample to i_psf = 21,7
 			prepspec used to combine photometrics for light curves from diff. facilities
 			L5100 is host corrected using estim. fraction from 2014 spectroscopy
+			We flag lags as problematic, when their assigned lag grade < 4
+			f = 4.17 +- 1.17
 
 Kaspi2000: DB source link: https://iopscience.iop.org/article/10.1086/308704/pdf
 
-	Assumptions:	No host correction was done for the luminosities
+	Assumptions:	No host correction was done for the luminosities hence they are flagged as problematic
 			f = sqrt(3)/2
 			Kepler motion of Gas
 			galactic extingstion done
