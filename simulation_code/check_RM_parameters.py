@@ -393,6 +393,20 @@ for i in range(N):
         received_lags.append(tlag_centroid / (1+z))
     if tlag_centroid / lag > 1.5 or tlag_centroid / lag < 0.5:
         outlier += 1
+
+t_plot = generate_observations(baseline, 0.5)
+cont_plot = downsample_lc(t_plot, time, cont)
+line_plot = downsample_lc(t_plot, time, line)
+plt.figure(figsize = (12,7))
+plt.plot(t_plot, cont_plot, label = 'continuum curve')
+plt.fill_between(t_plot, cont_plot - cont_plot/sn, cont_plot + cont_plot/sn, alpha = 0.3, label = 'continuum curve uncertainty')
+plt.plot(t_plot, line_plot, label = 'line curve')
+plt.fill_between(t_plot, line_plot - line_plot/sn, line_plot + line_plot/sn, alpha = 0.3, label = 'line curve uncertainty')
+plt.scatter(t, cont_final, marker = 'x', label = 'continuum data')
+plt.scatter(t, line_final, marker = 'x', label = 'line data')
+plt.legend(loc = 'best')
+plt.show()
+
 outlier_fraction = outlier / N * 100
 succes = len(received_lags) / N * 100
 received_lag = np.median(received_lags)
@@ -400,6 +414,25 @@ low = np.percentile(received_lags, 16)
 high = np.percentile(received_lags, 84)
 lag_error_plus=(high-received_lag)
 lag_error_minus=(received_lag - low)
+
+fraction = received_lags / lag -1 # 50 is true lag
+low = np.percentile(fraction, 16)
+high = np.percentile(fraction, 84)
+
+
+plt.figure(figsize = (10, 10 / 1.618))
+#plt.title('Bias histogram for rmax = 0.8, t_unit = 0.8 * 1/24')
+plt.hist(fraction, 100)
+plt.axvline(np.median(fraction), label = 'Median bias', color = 'red', ls = 'dashed', lw = 1)
+plt.axvline(low, label = '16th percentile', color = 'black', ls = 'dashed', lw = 1)
+plt.axvline(high, label = '84th percentile', color = 'black', ls = 'dashed', lw = 1)
+plt.legend(loc = 'best')
+plt.xlabel('bias')
+plt.ylabel('Counts')
+#plt.xlim(-0.75,1.25)
+plt.tick_params(axis = 'x', direction = 'out')
+plt.tick_params(axis = 'y', direction = 'in')
+plt.show()
 
 luminosities = np.linspace(1e40, 1e48)
 lags = 10**(1.5 + 0.5 * np.log10(luminosities/1e44))
