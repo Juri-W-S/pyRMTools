@@ -3,6 +3,7 @@ from stingray.simulator import simulator
 import matplotlib.pyplot as plt
 from scipy import signal
 import scipy.stats as sst
+from matplotlib.ticker import FuncFormatter
 
 # Transferfunction
 def top_hat(time, lag, width):
@@ -397,15 +398,22 @@ for i in range(N):
 t_plot = generate_observations(baseline, 0.5)
 cont_plot = downsample_lc(t_plot, time, cont)
 line_plot = downsample_lc(t_plot, time, line)
-plt.figure(figsize = (12,7))
-plt.plot(t_plot, cont_plot, label = 'continuum curve')
-plt.fill_between(t_plot, cont_plot - cont_plot/sn, cont_plot + cont_plot/sn, alpha = 0.3, label = 'continuum curve uncertainty')
-plt.plot(t_plot, line_plot, label = 'line curve')
-plt.fill_between(t_plot, line_plot - line_plot/sn, line_plot + line_plot/sn, alpha = 0.3, label = 'line curve uncertainty')
-plt.scatter(t, cont_final, marker = 'x', label = 'continuum data')
-plt.scatter(t, line_final, marker = 'x', label = 'line data')
-plt.legend(loc = 'best')
-plt.show()
+
+fig = plt.figure(figsize = (10,8))
+gs = fig.add_gridspec(2,2)
+ax1 = fig.add_subplot(gs[0,0])
+ax2 = fig.add_subplot(gs[0,1])
+ax3 = fig.add_subplot(gs[1,:])
+ax3.plot(t_plot, cont_plot, label = 'continuum curve')
+ax3.fill_between(t_plot, cont_plot - cont_plot/sn, cont_plot + cont_plot/sn, alpha = 0.3, label = 'continuum curve uncertainty')
+ax3.plot(t_plot, line_plot, label = 'line curve')
+ax3.fill_between(t_plot, line_plot - line_plot/sn, line_plot + line_plot/sn, alpha = 0.3, label = 'line curve uncertainty')
+ax3.scatter(t, cont_final, marker = 'x', label = 'continuum data')
+ax3.scatter(t, line_final, marker = 'x', label = 'line data')
+ax3.set_xlabel('t [days]')
+ax3.set_ylabel('Amplitude [A.U.]')
+ax3.legend(loc = 'best')
+
 
 outlier_fraction = outlier / N * 100
 succes = len(received_lags) / N * 100
@@ -415,40 +423,42 @@ high = np.percentile(received_lags, 84)
 lag_error_plus=(high-received_lag)
 lag_error_minus=(received_lag - low)
 
-fraction = received_lags / lag -1 # 50 is true lag
+fraction = received_lags / lag -1
 low = np.percentile(fraction, 16)
 high = np.percentile(fraction, 84)
 
 
-plt.figure(figsize = (10, 10 / 1.618))
-#plt.title('Bias histogram for rmax = 0.8, t_unit = 0.8 * 1/24')
-plt.hist(fraction, 100)
-plt.axvline(np.median(fraction), label = 'Median bias', color = 'red', ls = 'dashed', lw = 1)
-plt.axvline(low, label = '16th percentile', color = 'black', ls = 'dashed', lw = 1)
-plt.axvline(high, label = '84th percentile', color = 'black', ls = 'dashed', lw = 1)
-plt.legend(loc = 'best')
-plt.xlabel('bias')
-plt.ylabel('Counts')
-#plt.xlim(-0.75,1.25)
-plt.tick_params(axis = 'x', direction = 'out')
-plt.tick_params(axis = 'y', direction = 'in')
-plt.show()
+ax2.hist(fraction, 100)
+ax2.axvline(np.median(fraction), label = 'Median bias', color = 'red', ls = 'dashed', lw = 1)
+ax2.axvline(low, label = '16th percentile', color = 'black', ls = 'dashed', lw = 1)
+ax2.axvline(high, label = '84th percentile', color = 'black', ls = 'dashed', lw = 1)
+ax2.legend(loc = 'best')
+ax2.set_xlabel('bias')
+ax2.set_ylabel('Counts')
+ax2.tick_params(axis = 'x', direction = 'out')
+ax2.tick_params(axis = 'y', direction = 'in')
 
-luminosities = np.linspace(1e40, 1e48)
+
+luminosities = np.linspace(luminosity/1e2, luminosity*1e2, 100)
 lags = 10**(1.5 + 0.5 * np.log10(luminosities/1e44))
 
 print('value', '+', '-')
 print(received_lag, lag_error_plus, lag_error_minus)
 print('Succes rate:', succes, '%')
 print('Outlier fraction:', outlier_fraction, '%')
-plt.figure(figsize = (12,7))
-plt.errorbar(luminosity / 1e44, received_lag, yerr = [[lag_error_minus], [lag_error_plus]], label = 'Simulated result', fmt = 'x', elinewidth=1, capsize = 3)
-plt.scatter(luminosity / 1e44, lag / (1+z), marker = 'x', label = 'Expected result')
-plt.plot(luminosities / 1e44, lags, label = 'Physical R-L relation')
-plt.legend(loc = 'best')
-plt.xscale('log')
-plt.yscale('log')
-plt.xlabel(r'Luminosity [$10^{44}$ erg/s]')
-plt.ylabel('R [light days]')
+ax1.errorbar(luminosity / 1e44, received_lag, yerr = [[lag_error_minus], [lag_error_plus]], label = 'Simulated result', fmt = 'x', elinewidth=1, capsize = 3)
+ax1.scatter(luminosity / 1e44, lag / (1+z), marker = 'x', label = 'Expected result', color = 'orange')
+ax1.plot(luminosities / 1e44, lags, label = 'Physical R-L relation')
+ax1.legend(loc = 'best')
+ax1.set_xscale('log')
+ax1.set_yscale('log')
+ax1.set_xlabel(r'Luminosity [$10^{44}$ erg/s]')
+ax1.set_ylabel('R [light days]')
+ax1.tick_params(which='major', direction='in')
+ax1.tick_params(which='minor', direction='in')
+ax1.xaxis.set_major_formatter(
+    FuncFormatter(lambda val, pos: rf'$10^{{{int(np.log10(val*1e44))}}}$')
+)
+plt.tight_layout()
 plt.show()
 plt.close('all')
