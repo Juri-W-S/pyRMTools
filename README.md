@@ -1,4 +1,4 @@
-# Project Title
+# Reverberation mapping database
 
 Repository accompanying the paper:
 
