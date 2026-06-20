@@ -386162,13 +386162,23 @@
       }
     ],
     "distance": {
-      "luminosity distance": [
+      "group-averaged distance": [
+        {
+          "value": 26.4,
+          "error": 1.6,
+          "unit": "Mpc",
+          "problematic": false,
+          "note": "based on group-averaged distance estimate",
+          "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
+        }
+      ],
+      "sbf distance": [
         {
           "value": 23.5,
           "error": 2.4,
           "unit": "Mpc",
           "problematic": false,
-          "note": "based on tully-fisher of nearby galaxies",
+          "note": "adopted value, based on SBF distance of NGC 3226 and interaction with NGC 3227",
           "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
         }
       ]
@@ -386365,11 +386375,21 @@
     "distance": {
       "luminosity distance": [
         {
+          "value": 41,
+          "error": 0,
+          "unit": "Mpc",
+          "problematic": true,
+          "note": "origin of uncertainty to group-averaged distance unknown",
+          "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
+        }
+      ],
+      "group-averaged distance": [
+        {
           "value": 25.1,
           "error": 5,
           "unit": "Mpc",
           "problematic": false,
-          "note": "based on tully-fisher of nearby galaxies",
+          "note": "adopted value, based on group averaged distance and 20% uncertainty",
           "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
         }
       ]
@@ -386603,13 +386623,23 @@
       }
     ],
     "distance": {
-      "luminosity distance": [
+      "group-averaged distance": [
         {
           "value": 17.1,
           "error": 3.4,
           "unit": "Mpc",
           "problematic": false,
-          "note": "based on tully-fisher of nearby galaxies",
+          "note": "adopted value, group-average distance estimate with 20% uncertainty",
+          "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
+        }
+      ],
+      "tully-fisher distance": [
+        {
+          "value": 12.2,
+          "error": 0,
+          "unit": "Mpc",
+          "problematic": true,
+          "note": "tully-fisher distance was not corrected for AGN contribution to total galaxy luminosity",
           "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
         }
       ]
@@ -386804,13 +386834,13 @@
       }
     ],
     "distance": {
-      "luminosity distance": [
+      "group-averaged distance": [
         {
           "value": 16.6,
           "error": 3.3,
           "unit": "Mpc",
           "problematic": false,
-          "note": "based on tully-fisher of nearby galaxies",
+          "note": "adopted value, based on group-averaged distance excluding likely erroneous tully-fisher distance",
           "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
         }
       ]
@@ -388534,13 +388564,13 @@
       }
     ],
     "distance": {
-      "luminosity distance": [
+      "group-averaged distance": [
         {
           "value": 37.3,
           "error": 7.5,
           "unit": "Mpc",
           "problematic": false,
-          "note": "based on tully-fisher of nearby galaxies",
+          "note": "based on averaged distance moduli with 20% uncertainty",
           "source": "https://iopscience.iop.org/article/10.1088/0004-637X/767/2/149/pdf"
         }
       ]
