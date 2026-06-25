@@ -15,48 +15,48 @@ Verifying the successfull installation depends on the OS:
 
 Linux and macOS: Type `mongod --version` into the console
 
-Windows: Go into the settings for "services" and check for "MongoDB" in the list
+Windows: Go into the settings for `services` and check for `MongoDB` in the list
 
-The server adress to the database should be "mongodb://localhost27017" per default.
+The server adress to the database should be `mongodb://localhost27017` per default.
 
 ## 2. Starting the server
 
-Linux: In most linux distributions the server can be started in the terminal by typing "sudo systemctl start mongod"
-        and to check if the server is active type "sudo systemctl status mongod".
+Linux: In most linux distributions the server can be started in the terminal by typing `sudo systemctl start mongod`
+        and to check if the server is active type `sudo systemctl status mongod`.
         
-macOS: The server can be started using Homebrew by typing "brew services start mongodb-community" into bash
-        and to check if the server is active type "brew services list".
-        If you don't use Homebrew you can type "mongod –config /usr/local/etc/mongod.conf" into bash,
+macOS: The server can be started using Homebrew by typing `brew services start mongodb-community` into bash
+        and to check if the server is active type `brew services list`.
+        If you don't use Homebrew you can type `mongod –config /usr/local/etc/mongod.conf` into bash,
         but it is important to check where the files are located, since this may differ. The activity
-        can be checked by typing "mongosh" into bash and a MongoDB shell should appear if it is running.
+        can be checked by typing `mongosh` into bash and a MongoDB shell should appear if it is running.
         
-Windows: The server can be started by typing "net start MongoDB" into the PowerShell command line
-        and to check if the server is active type "sc query MongoDB".
+Windows: The server can be started by typing `net start MongoDB` into the PowerShell command line
+        and to check if the server is active type `sc query MongoDB`.
 
 ## 3. Connecting the MongoDB Compass and add a new database
 
 After opening the MongoDB Compass the connection to the database can be established by
-adding the local server adress into the window which opens after pressing "add new connection".
+adding the local server adress into the window which opens after pressing `add new connection`.
 
 The new database can be added by pressing the according button in the interface. The name
 you chose there will be referred to as the client. In the newly added database you can then
 add collections which are the place the data has to be inserted to. To add the data into the
-collection, simply open the created collection and press the green + and import the provided
+collection, simply open the created collection and press the green `+` and import the provided
 .json file in `/data`
 
 ## 4. Using the database in python
 
-The use of the database in python relies on the package "pymongo" which is available on
+The use of the database in python relies on the package `pymongo` which is available on
 the usual installers. For each use, the python file (or notebook) has to establish a
 connection with the database and the collection that has to be used. Our example uses
 the name "quasar_db" for the database and "objects" for the collection with RM data.
 
-  from pymongo import MongoClient
+  `from pymongo import MongoClient
   
   client = MongoClient("mongodb://localhost:27017")
   
   db = client["quasar_db"]
   
-  objects = db["objects"]
+  objects = db["objects"]`
 
   
