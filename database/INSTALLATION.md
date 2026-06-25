@@ -13,7 +13,7 @@ an automatic start of the database in the background possible.
 
 Verifying the successfull installation depends on the OS:
 
-Linux and macOS: Type "mongod --version" into the console
+Linux and macOS: Type `mongod --version` into the console
 
 Windows: Go into the settings for "services" and check for "MongoDB" in the list
 
