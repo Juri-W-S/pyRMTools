@@ -42,7 +42,7 @@ The new database can be added by pressing the according button in the interface.
 you chose there will be referred to as the client. In the newly added database you can then
 add collections which are the place the data has to be inserted to. To add the data into the
 collection, simply open the created collection and press the green + and import the provided
-.json file in [/data]
+.json file in `/data`
 
 ## 4. Using the database in python
 
