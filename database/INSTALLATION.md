@@ -59,4 +59,25 @@ the name "quasar_db" for the database and "objects" for the collection with RM d
   
   `objects = db["objects"]`
 
+A routine to retrive all objects with a H$\beta$ lag measurement and a continuum luminosity at 5100\AA
+and add their name and redshift to a list can look like this:
+
+        `names = []`
+
+        `redshift = []`
+
+        `results = objects.find({
+        "properties.lags.H_beta": {"$exists": True},
+        "properties.luminosities.L5100": {"$exists": True}
+        })`
+
+        `for quasar in results:`
+
+        `entry_names = quasar.get("names")`
+
+        `names.append(entry_names)`
+
+        `entry_redshift = quasar.get("properties").get("redshift")`
+
+        `redshift.append(entry_redshift["value"])`
   
