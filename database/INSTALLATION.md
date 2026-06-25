@@ -52,8 +52,11 @@ connection with the database and the collection that has to be used. Our example
 the name "quasar_db" for the database and "objects" for the collection with RM data.
 
   from pymongo import MongoClient
+  
   client = MongoClient("mongodb://localhost:27017")
+  
   db = client["quasar_db"]
+  
   objects = db["objects"]
 
   
