@@ -23,11 +23,13 @@ The server adress to the database should be "mongodb://localhost27017" per defau
 
 Linux: In most linux distributions the server can be started in the terminal by typing "sudo systemctl start mongod"
         and to check if the server is active type "sudo systemctl status mongod".
+        
 macOS: The server can be started using Homebrew by typing "brew services start mongodb-community" into bash
         and to check if the server is active type "brew services list".
         If you don't use Homebrew you can type "mongod –config /usr/local/etc/mongod.conf" into bash,
         but it is important to check where the files are located, since this may differ. The activity
         can be checked by typing "mongosh" into bash and a MongoDB shell should appear if it is running.
+        
 Windows: The server can be started by typing "net start MongoDB" into the PowerShell command line
         and to check if the server is active type "sc query MongoDB".
 
