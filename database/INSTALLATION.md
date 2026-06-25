@@ -59,7 +59,7 @@ the name "quasar_db" for the database and "objects" for the collection with RM d
   
         objects = db["objects"]
 
-A routine to retrive all objects with a H$\beta$ lag measurement and a continuum luminosity at 5100\AA
+A routine to retrive all objects with a H𝛽 lag measurement and a continuum luminosity at 5100Å
 and add their name and redshift to a list can look like this:
 
         names = []
