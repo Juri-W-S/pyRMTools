@@ -1,7 +1,7 @@
 ### Installation guide
 
 We provide a step by step installation guide to help installing the MongoDB client and locally running the RM database.
-The installation guide relies on the use of the MongoDB Compass which should be downloaded from https://www.mongodb.com/try/download/compas .
+The installation guide relies on the use of the MongoDB Compass which should be downloaded from https://www.mongodb.com/try/download/compas.
 
 
 ## 1. Installing MongoDB server
