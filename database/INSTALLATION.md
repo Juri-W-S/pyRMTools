@@ -51,13 +51,13 @@ the usual installers. For each use, the python file (or notebook) has to establi
 connection with the database and the collection that has to be used. Our example uses
 the name "quasar_db" for the database and "objects" for the collection with RM data.
 
-  `from pymongo import MongoClient`
+        from pymongo import MongoClient
   
-  `client = MongoClient("mongodb://localhost:27017")`
+        client = MongoClient("mongodb://localhost:27017")
   
-  `db = client["quasar_db"]`
+        db = client["quasar_db"]
   
-  `objects = db["objects"]`
+        objects = db["objects"]
 
 A routine to retrive all objects with a H$\beta$ lag measurement and a continuum luminosity at 5100\AA
 and add their name and redshift to a list can look like this:
