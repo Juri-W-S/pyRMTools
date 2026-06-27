@@ -37,8 +37,9 @@ The reverberation mapping database content and the additional readme.txt file co
 
 ## Example Usage
 
-In the `examples/` directory we provide example scripts demonstrating how to access and use the database,
-for example on how to compile these R-L figures:
+In the `examples/` directory we provide example scripts demonstrating how to access and use the database.
+
+For example on how to compile these R-L figures:
 <p align="center">
   <img src="results/figures/md_fig/rl_hb.png" width="300">
   <img src="results/figures/md_fig/rl_mg2.png" width="300">
