@@ -268,21 +268,6 @@ def get_luminosity(object, L,*,
             values, errors, combined_from = result
             value, error = combine_quantity(values, errors, errors, combine_method)
             return value, error, combined_from
-            
-def fit(x, a, b):                        # Basic powerlaw R-L fit
-    return 10**a*x**b
-        
-def shaded_fit(a, a_plus, a_minus, b, b_plus, b_minus, x):    # Used to show errors of the basic powerlaw R-L fit
-    a_werte = np.linspace(a-a_minus, a+a_plus, 40)
-    b_werte = np.linspace(b-b_minus, b+b_plus, 40)
-    Y = []
-    for a_1 in a_werte:
-        for b_1 in b_werte:
-            Y.append(fit(x, a_1, b_1))
-    Y = np.array(Y)
-    y_min = Y.min(axis = 0)
-    y_max = Y.max(axis =0)
-    return y_min, y_max
 
 def rl_model_with_errors(L, alpha, alpha_err_minus, alpha_err_plus,
     beta, beta_err_minus, beta_err_plus, sigma):
@@ -300,6 +285,33 @@ def rl_model_with_errors(L, alpha, alpha_err_minus, alpha_err_plus,
     y_scatter_high = 10**(logR + sigma)
 
     return y_med, y_low, y_high, y_scatter_low, y_scatter_high
+
+plt.rcParams.update({
+    "font.size": 8,
+    "axes.labelsize": 9,
+    "axes.titlesize": 9,
+    "legend.fontsize": 6.5,
+    "xtick.labelsize": 7.5,
+    "ytick.labelsize": 7.5,
+
+    "axes.linewidth": 0.8,
+    "lines.linewidth": 1.1,
+    "lines.markersize": 3.0,
+    "errorbar.capsize": 1.5,
+
+    "xtick.direction": "in",
+    "ytick.direction": "in",
+    "xtick.top": True,
+    "ytick.right": True,
+    "xtick.major.width": 0.8,
+    "ytick.major.width": 0.8,
+    "xtick.minor.width": 0.6,
+    "ytick.minor.width": 0.6,
+
+    "savefig.dpi": 600,
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
+})
 
 '''
 Plotting the H_beta R-L relation using data from the RM database.
@@ -457,13 +469,11 @@ for object in cursor:
     L_error_Grier2017.append(L_error / 1e44)
 
 '''
-Literature collection of fits. Fits using rl_model_with_errors() were fitted including intrinsic scatter,
-and fits using shaded_fit() were fitted without intrinsic scatter.
+Literature collection of fits.
 '''
 
 x = np.linspace(5e40, 1e47, 10000) / 1e44
 
-y_min_Hu25, y_max_Hu25 = shaded_fit(1.49,0.03,0.03,0.53,0.04,0.04,x)
 y_med_Shen24, y_low_Shen24, y_high_Shen24, y_s_lo_Shen24, y_s_hi_Shen24 = rl_model_with_errors(
     x, 0.41, 0.07, 0.07, 1.458, 0.038, 0.038, 0.32)
 y_med_McDougall, y_low_McDougall, y_high_McDougall, y_s_lo_McDougall, y_s_hi_McDougall = rl_model_with_errors(
@@ -472,50 +482,113 @@ y_med_Bentz, y_low_Bentz, y_high_Bentz, y_s_lo_Bentz, y_s_hi_Bentz = rl_model_wi
     x, 0.549, 0.027, 0.028, 1.559, 0.024, 0.024, 0.13)
 y_med_Woo, y_low_Woo, y_high_Woo, y_s_lo_Woo, y_s_hi_Woo = rl_model_with_errors(
     x, 0.444, 0.035, 0.036, 1.401, 0.034, 0.034, 0.177)
+y_med_Hu25, y_low_Hu25, y_high_Hu25, y_s_low_Hu25, y_s_hi_Hu25 = rl_model_with_errors(
+    x, 0.53, 0.04, 0.04, 1.49, 0.03, 0.03, 0
+)
+SINGLE_COL_FIGSIZE = (3.45, 3.4)
+fig, ax = plt.subplots(figsize=SINGLE_COL_FIGSIZE, constrained_layout=True)
 
-plt.figure(figsize = (10, 10 / 1.618))
-plt.xscale('log')
-plt.yscale('log')
-plt.errorbar(L_McDougall2025, lag_McDougall2025 ,xerr = L_error_McDougall2025,yerr = [lag_error_minus_McDougall2025, lag_error_plus_McDougall2025] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:off blue')
-plt.plot([],[],'o', ms = 5, label = 'McDougall 2025', color = 'xkcd:off blue')
-plt.errorbar(L_Woo2024, lag_Woo2024 ,xerr = L_error_Woo2024,yerr = [lag_error_minus_Woo2024, lag_error_plus_Woo2024] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_',color = 'xkcd:Blue violet')
-plt.plot([],[],'o', ms = 5, label = 'Woo 2024', color = 'xkcd:Blue violet')
-plt.errorbar(L_Bentz2013, lag_Bentz2013 ,xerr = L_error_Bentz2013,yerr = [lag_error_minus_Bentz2013, lag_error_plus_Bentz2013] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Electric purple')
-plt.plot([],[],'o', ms = 5, label = 'Bentz 2013', color = 'xkcd:Electric purple')
-plt.errorbar(L_Hu2025, lag_Hu2025 ,xerr = L_error_Hu2025,yerr = [lag_error_minus_Hu2025, lag_error_plus_Hu2025] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Cool Grey')
-plt.plot([],[],'o', ms = 5, label = 'Hu 2025', color = 'xkcd:Cool Grey')
-plt.errorbar(L_Hu2021, lag_Hu2021 ,xerr = L_error_Hu2021,yerr = [lag_error_minus_Hu2021, lag_error_plus_Hu2021] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Charcoal Grey')
-plt.plot([],[],'o', ms = 5, label = 'Hu 2021', color = 'xkcd:Charcoal Grey')
-plt.errorbar(L_Grier2017, lag_Grier2017 ,xerr = L_error_Grier2017,yerr = [lag_error_minus_Grier2017, lag_error_plus_Grier2017] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Blue green')
-plt.plot([],[],'o', ms = 5, label = 'Grier 2017', color = 'xkcd:Blue green')
-plt.errorbar(L_Shen2024, lag_Shen2024 ,xerr = L_error_Shen2024,yerr = [lag_error_minus_Shen2024, lag_error_plus_Shen2024] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Rouge')
-plt.plot([],[],'o', ms = 5, label = 'Shen 2024', color = 'xkcd:Rouge')
-plt.xlabel(r'$L_{5100}$ [$10^{44}$ erg/s]')
-plt.ylabel('R [light days]')
-plt.title('R-L H$\\beta$')
-plt.fill_between(x, y_min_Hu25, y_max_Hu25, alpha = 0.25, color = 'gray')
-plt.plot(x, fit(x, 1.49, 0.53), label = 'Hu 2025 fit', color = 'gray')
-plt.fill_between(x, y_low_Shen24, y_high_Shen24, color='forestgreen', alpha=0.2)
-plt.plot(x, y_med_Shen24, color='forestgreen', label = 'Shen 2024 fit')
-plt.plot(x, y_s_lo_Shen24, color = 'forestgreen', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_Shen24, color = 'forestgreen', ls = '--', alpha = 0.5)
-plt.fill_between(x, y_low_McDougall, y_high_McDougall, color='blue', alpha=0.2)
-plt.plot(x, y_med_McDougall, color='blue', label = 'McDougall 2025 fit')
-plt.plot(x, y_s_lo_McDougall, color = 'blue', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_McDougall, color = 'blue', ls = '--', alpha = 0.5)
-plt.fill_between(x, y_low_Bentz, y_high_Bentz, color='firebrick', alpha=0.2)
-plt.plot(x, y_med_Bentz, color='firebrick', label = 'Bentz 2013 fit')
-plt.plot(x, y_s_lo_Bentz, color = 'firebrick', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_Bentz, color = 'firebrick', ls = '--', alpha = 0.5)
-plt.fill_between(x, y_low_Woo, y_high_Woo, color='orange', alpha=0.2)
-plt.plot(x, y_med_Woo, color='orange', label = 'Woo 2024 fit')
-plt.plot(x, y_s_lo_Woo, color = 'orange', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_Woo, color = 'orange', ls = '--', alpha = 0.5)
-plt.legend(loc = 'upper left')
-plt.tick_params(which='major', direction='in')
-plt.tick_params(which='minor', direction='in')
+
+ax.set_xscale("log")
+ax.set_yscale("log")
+
+# -------------------------
+# Data points
+# -------------------------
+datasets = [
+    ("McDougall 2025", L_McDougall2025, lag_McDougall2025,
+     L_error_McDougall2025, [lag_error_minus_McDougall2025, lag_error_plus_McDougall2025],
+     "xkcd:off blue"),
+    ("Woo 2024", L_Woo2024, lag_Woo2024,
+     L_error_Woo2024, [lag_error_minus_Woo2024, lag_error_plus_Woo2024],
+     "#5dc154"),
+    ("Bentz 2013", L_Bentz2013, lag_Bentz2013,
+     L_error_Bentz2013, [lag_error_minus_Bentz2013, lag_error_plus_Bentz2013],
+     "#0fa8bf"),
+    ("Hu 2025", L_Hu2025, lag_Hu2025,
+     L_error_Hu2025, [lag_error_minus_Hu2025, lag_error_plus_Hu2025],
+     "0.55"),
+    ("Hu 2021", L_Hu2021, lag_Hu2021,
+     L_error_Hu2021, [lag_error_minus_Hu2021, lag_error_plus_Hu2021],
+     "0.25"),
+    ("Grier 2017", L_Grier2017, lag_Grier2017,
+     L_error_Grier2017, [lag_error_minus_Grier2017, lag_error_plus_Grier2017],
+     "xkcd:Blue green"),
+    ("Shen 2024", L_Shen2024, lag_Shen2024,
+     L_error_Shen2024, [lag_error_minus_Shen2024, lag_error_plus_Shen2024],
+     "#d80e48"),
+]
+
+for label, L, R, Lerr, Rerr, color in datasets:
+    ax.errorbar(
+        L, R,
+        xerr=Lerr,
+        yerr=Rerr,
+        fmt="o",
+        ms=3.5,
+        mfc="white",
+        mec=color,
+        mew=0.8,
+        ecolor=color,
+        elinewidth=0.7,
+        capsize=3,
+        alpha=0.85,
+        ls="none",
+        label=label,
+        zorder=3,
+    )
+    
+fits = [
+    ("Hu 2025 fit", x, y_med_Hu25, y_low_Hu25, y_high_Hu25, "0.45"),
+    ("Shen 2024 fit", x, y_med_Shen24, y_low_Shen24, y_high_Shen24, "#d80e48"),
+    ("McDougall 2025 fit", x, y_med_McDougall, y_low_McDougall, y_high_McDougall, "tab:blue"),
+    ("Bentz 2013 fit", x, y_med_Bentz, y_low_Bentz, y_high_Bentz, "#0fa8bf"),
+    ("Woo 2024 fit", x, y_med_Woo, y_low_Woo, y_high_Woo, "#5dc154"),
+]
+
+for label, xx, ymed, ylo, yhi, color in fits:
+    ax.fill_between(
+        xx, ylo, yhi,
+        color=color,
+        alpha=0.12,
+        linewidth=0,
+        zorder=1,
+    )
+    ax.plot(
+        xx, ymed,
+        color=color,
+        lw=1.4,
+        label=label,
+        zorder=2,
+    )
+    
+ax.set_xlim(5e-4, 2e2)
+ax.set_ylim(3e-1, 7e2)
+
+ax.set_xlabel(r"$\lambda L_{\lambda}(5100\,\AA)/(\mathrm{erg\,s^{-1}})$")
+ax.set_ylabel(r"$R_{\mathrm{H}\beta}$ [light-days]")
+
+ax.tick_params(which="both", direction="in", top=True, right=True)
+
+ax.legend(
+    loc="upper left",
+    frameon=True,
+    framealpha=0.85,
+    facecolor="white",
+    edgecolor="none",
+    ncol=2,
+    fontsize=6.5,
+    handlelength=1.2,
+    columnspacing=0.6,
+    labelspacing=0.20,
+    borderpad=0.20,
+)
+
+ax = plt.gca()
+ax.xaxis.set_major_formatter(
+    FuncFormatter(lambda val, pos: rf'$10^{{{int(np.log10(val*1e44))}}}$')
+)
 plt.show()
-
 
 '''
 Plotting the MgII R-L relation using data from the RM database.
@@ -583,8 +656,7 @@ for object in cursor:
     L_error_Bai2025.append(L_error / 1e44)
 
 '''
-Literature collection of fits. Fits using rl_model_with_errors() were fitted including intrinsic scatter,
-and fits using shaded_fit() were fitted without intrinsic scatter.
+Literature collection of fits.
 '''
 
 x = np.linspace(1e42, 1e47, 10000) / 1e44
@@ -596,58 +668,95 @@ y_med_McDougall, y_low_McDougall, y_high_McDougall, y_s_lo_McDougall, y_s_hi_McD
 y_med_Bai, y_low_Bai, y_high_Bai, y_s_lo_Bai, y_s_hi_Bai = rl_model_with_errors(
     x, 0.24, 0.03, 0.03, 1.81, 0.02, 0.02, 0.04)
 
-plt.figure(figsize = (10, 10 / 1.618))
-plt.xscale('log')
-plt.yscale('log')
-plt.errorbar(L_McDougall2025, lag_McDougall2025 ,xerr = L_error_McDougall2025,yerr = [lag_error_minus_McDougall2025, lag_error_plus_McDougall2025] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:off blue')
-plt.plot([],[],'o', ms = 5, label = 'McDougall 2025', color = 'xkcd:off blue')
-plt.errorbar(L_Shen2024, lag_Shen2024 ,xerr = L_error_Shen2024,yerr = [lag_error_minus_Shen2024, lag_error_plus_Shen2024] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Rouge')
-plt.plot([],[],'o', ms = 5, label = 'Shen 2024', color = 'xkcd:Rouge')
-plt.errorbar(L_Bai2025, lag_Bai2025 ,xerr = L_error_Bai2025,yerr = [lag_error_minus_Bai2025, lag_error_plus_Bai2025] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Blue green')
-plt.plot([],[],'o', ms = 5, label = 'Bai 2026', color = 'xkcd:Blue green')
-plt.xlabel(r'$L_{3000}$ [$10^{44}$ erg/s]')
-plt.ylabel('R [light days]')
-plt.title('R-L MgII')
-plt.fill_between(x, y_low_Shen24, y_high_Shen24, color='firebrick', alpha=0.2)
-plt.plot(x, y_med_Shen24, color='firebrick', label = 'Shen 2024 fit')
-plt.plot(x, y_s_lo_Shen24, color = 'firebrick', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_Shen24, color = 'firebrick', ls = '--', alpha = 0.5)
-plt.fill_between(x, y_low_McDougall, y_high_McDougall, color='blue', alpha=0.2)
-plt.plot(x, y_med_McDougall, color='blue', label = 'McDougall 2025 fit')
-plt.plot(x, y_s_lo_McDougall, color = 'blue', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_McDougall, color = 'blue', ls = '--', alpha = 0.5)
-plt.fill_between(x, y_low_Bai, y_high_Bai, color='forestgreen', alpha=0.2)
-plt.plot(x, y_med_Bai, color='forestgreen', label = 'Bai 2026 fit')
-plt.plot(x, y_s_lo_Bai, color = 'forestgreen', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_Bai, color = 'forestgreen', ls = '--', alpha = 0.5)
-plt.legend(loc = 'upper left')
-plt.tick_params(which='major', direction='in')
-plt.tick_params(which='minor', direction='in')
+fig, ax = plt.subplots(figsize=SINGLE_COL_FIGSIZE, constrained_layout=True)
+
+ax.set_xscale("log")
+ax.set_yscale("log")
+
+datasets = [
+    ("McDougall 2025", L_McDougall2025, lag_McDougall2025,
+     L_error_McDougall2025, [lag_error_minus_McDougall2025, lag_error_plus_McDougall2025],
+     "xkcd:off blue"),
+    ("Bai 2026", L_Bai2025, lag_Bai2025,
+     L_error_Bai2025, [lag_error_minus_Bai2025, lag_error_plus_Bai2025],
+     "#5dc154"),
+    ("Shen 2024", L_Shen2024, lag_Shen2024,
+     L_error_Shen2024, [lag_error_minus_Shen2024, lag_error_plus_Shen2024],
+     "#d80e48"),
+]
+
+for label, L, R, Lerr, Rerr, color in datasets:
+    ax.errorbar(
+        L, R,
+        xerr=Lerr,
+        yerr=Rerr,
+        fmt="o",
+        ms=3.5,
+        mfc="white",
+        mec=color,
+        mew=0.8,
+        ecolor=color,
+        elinewidth=0.7,
+        capsize=3,
+        alpha=0.85,
+        ls="none",
+        label=label,
+        zorder=3,
+    )
+    
+fits = [
+    ("Shen 2024 fit", x, y_med_Shen24, y_low_Shen24, y_high_Shen24, "#d80e48"),
+    ("McDougall 2025 fit", x, y_med_McDougall, y_low_McDougall, y_high_McDougall, "tab:blue"),
+    ("Bai 2026 fit", x, y_med_Bai, y_low_Bai, y_high_Bai, "#5dc154"),
+]
+
+for label, xx, ymed, ylo, yhi, color in fits:
+    ax.fill_between(
+        xx, ylo, yhi,
+        color=color,
+        alpha=0.12,
+        linewidth=0,
+        zorder=1,
+    )
+    ax.plot(
+        xx, ymed,
+        color=color,
+        lw=1.4,
+        label=label,
+        zorder=2,
+    )
+
+ax.set_xlim(1e-1, 8e2)
+ax.set_ylim(3e0, 3e3)
+
+ax.set_xlabel(r"$\lambda L_{\lambda}(3000\,\AA)/(\mathrm{erg\,s^{-1}})$")
+ax.set_ylabel(r"$R_{\mathrm{Mg\,II}}$ [light-days]")
+
+ax.tick_params(which="both", direction="in", top=True, right=True)
+
+ax.legend(
+    loc="upper left",
+    frameon=True,
+    framealpha=0.85,
+    facecolor="white",
+    edgecolor="none",
+    ncol=2,
+    fontsize=6,
+    handlelength=1.2,
+    columnspacing=0.6,
+    labelspacing=0.20,
+    borderpad=0.20,
+)
+
+ax = plt.gca()
+ax.xaxis.set_major_formatter(
+    FuncFormatter(lambda val, pos: rf'$10^{{{int(np.log10(val*1e44))}}}$')
+)
 plt.show()
 
 '''
 Plotting the CIV R-L relation using data from the RM database.
 '''
-
-cursor = objects.find({'$and':[{'properties.lags.c4': {'$exists': True}}, {'properties.L1350.Lira2018': {'$exists': True}}]})
-
-lag_Lira2018 = []
-lag_error_plus_Lira2018 = []
-lag_error_minus_Lira2018 = []
-lag_grade_Lira2018 = []
-
-L_Lira2018 = []
-L_error_Lira2018 = []
-
-for object in cursor:
-    lag, lag_error_plus, lag_error_minus, lag_grade = get_lag(object, 'c4', mode = 'simple',source = 'Lira2018')
-    L, L_error = get_luminosity(object, 'L1350', mode = 'simple',source ='Lira2018')
-    lag_Lira2018.append(lag)
-    lag_error_plus_Lira2018.append(lag_error_plus)
-    lag_error_minus_Lira2018.append(lag_error_minus)
-    lag_grade_Lira2018.append(lag_grade)
-    L_Lira2018.append(L / 1e44)
-    L_error_Lira2018.append(L_error / 1e44)
 
 cursor = objects.find({'$and':[{'properties.lags.c4': {'$exists': True}}, {'properties.L1350.Penton2025': {'$exists': True}}]})
 
@@ -660,7 +769,7 @@ L_Penton2025 = []
 L_error_Penton2025 = []
 
 for object in cursor:
-    lag, lag_error_plus, lag_error_minus, lag_grade = get_lag(object, 'c4',mode = 'simple', source = 'Penton2025')
+    lag, lag_error_plus, lag_error_minus, lag_grade = get_lag(object, 'c4', mode = 'simple',source = 'Penton2025')
     L, L_error = get_luminosity(object, 'L1350', mode = 'simple',source ='Penton2025')
     lag_Penton2025.append(lag)
     lag_error_plus_Penton2025.append(lag_error_plus)
@@ -668,6 +777,26 @@ for object in cursor:
     lag_grade_Penton2025.append(lag_grade)
     L_Penton2025.append(L / 1e44)
     L_error_Penton2025.append(L_error / 1e44)
+
+cursor = objects.find({'$and':[{'properties.lags.c4': {'$exists': True}}, {'properties.L1350.Lira2018': {'$exists': True}}]})
+
+lag_Lira2018 = []
+lag_error_plus_Lira2018 = []
+lag_error_minus_Lira2018 = []
+lag_grade_Lira2018 = []
+
+L_Lira2018 = []
+L_error_Lira2018 = []
+
+for object in cursor:
+    lag, lag_error_plus, lag_error_minus, lag_grade = get_lag(object, 'c4',mode = 'simple', source = 'Lira2018')
+    L, L_error = get_luminosity(object, 'L1350', mode = 'simple',source ='Lira2018')
+    lag_Lira2018.append(lag)
+    lag_error_plus_Lira2018.append(lag_error_plus)
+    lag_error_minus_Lira2018.append(lag_error_minus)
+    lag_grade_Lira2018.append(lag_grade)
+    L_Lira2018.append(L / 1e44)
+    L_error_Lira2018.append(L_error / 1e44)
 
 cursor = objects.find({'$and':[{'properties.lags.c4': {'$exists': True}}, {'properties.L1350.Kaspi2021': {'$exists': True}}]})
 
@@ -710,48 +839,106 @@ for object in cursor:
     L_error_Shen2024.append(L_error / 1e44)
 
 '''
-Literature collection of fits. Fits using rl_model_with_errors() were fitted including intrinsic scatter,
-and fits using shaded_fit() were fitted without intrinsic scatter.
+Literature collection of fits.
 '''
 
 x = np.linspace(1e39, 1e48, 10000) / 1e44
 
-y_min_Lira18, y_max_Lira18 = shaded_fit(0.80,0.21,0.21,0.46,0.08,0.08,x)
-y_min_Kaspi21, y_max_Kaspi21 = shaded_fit(0.84,0.1,0.1,0.45,0.03,0.03,x)
 y_med_Shen24, y_low_Shen24, y_high_Shen24, y_s_lo_Shen24, y_s_hi_Shen24 = rl_model_with_errors(
     x, 0.32, 0.11, 0.11, 1.52, 0.073, 0.075 ,0.51)
 y_med_McDougall, y_low_McDougall, y_high_McDougall, y_s_lo_McDougall, y_s_hi_McDougall = rl_model_with_errors(
-    x, 0.47, 0.04, 0.05, 1.65, 0.06, 0.05, 0.36)
+    x, 0.47, 0.04, 0.05, 1.18, 0.06, 0.05, 0.36)
+y_med_Lira18, y_low_Lira18, y_high_Lira18, y_s_lo_Lira18, y_s_hi_Lira18 = rl_model_with_errors(
+    x, 0.46, 0.08, 0.08, 0.80, 0.21, 0.21, 0)
+y_med_Kaspi21, y_low_Kaspi21, y_high_Kaspi21, y_s_lo_Kaspi21, y_s_hi_Kaspi21 = rl_model_with_errors(
+    x, 0.45, 0.03, 0.03, 0.84, 0.1, 0.1, 0)
 
-plt.figure(figsize = (10, 10 / 1.618))
-plt.xscale('log')
-plt.yscale('log')
-plt.errorbar(L_Lira2018, lag_Lira2018 ,xerr = L_error_Lira2018, yerr = [lag_error_minus_Lira2018, lag_error_plus_Lira2018] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Shamrock green')
-plt.plot([],[],'o', ms = 5, label = 'Lira 2018', color = 'xkcd:Shamrock green')
-plt.errorbar(L_Penton2025, lag_Penton2025 ,xerr = L_error_Penton2025,yerr = [lag_error_minus_Penton2025, lag_error_plus_Penton2025] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Off blue')
-plt.plot([],[],'o', ms = 5, label = 'Penton 2025', color = 'xkcd:Off blue')
-plt.errorbar(L_Kaspi2021, lag_Kaspi2021 ,xerr = L_error_Kaspi2021,yerr = [lag_error_minus_Kaspi2021, lag_error_plus_Kaspi2021] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Topaz')
-plt.plot([],[],'o', ms = 5, label = 'Kaspi 2021', color = 'xkcd:Topaz')
-plt.errorbar(L_Shen2024, lag_Shen2024 ,xerr = L_error_Shen2024,yerr = [lag_error_minus_Shen2024, lag_error_plus_Shen2024] ,ls = 'None', fmt = 'o', elinewidth=1, capsize = 3, ms = 3, label = '_nolegend_', color = 'xkcd:Rouge')
-plt.plot([],[],'o', ms = 5, label = 'Shen 2024', color = 'xkcd:Rouge')
-plt.xlabel(r'$L_{1350}$ [$10^{44}$ erg/s]')
-plt.ylabel('R [light days]')
-plt.title('R-L CIV')
-plt.ylim(bottom = 1e-3)
-plt.fill_between(x, y_min_Lira18, y_max_Lira18, alpha = 0.25, color = 'forestgreen')
-plt.plot(x, fit(x, 0.80, 0.46), label = 'Lira 2018 fit', color = 'forestgreen')
-plt.fill_between(x, y_min_Kaspi21, y_max_Kaspi21, alpha = 0.25, color = 'gray')
-plt.plot(x, fit(x, 0.84, 0.45), label = 'Kaspi 2021 fit', color = 'gray')
-plt.fill_between(x, y_low_Shen24, y_high_Shen24, color='firebrick', alpha=0.2)
-plt.plot(x, y_med_Shen24, color='firebrick', label = 'Shen 2024 fit')
-plt.plot(x, y_s_lo_Shen24, color = 'firebrick', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_Shen24, color = 'firebrick', ls = '--', alpha = 0.5)
-plt.fill_between(x, y_low_McDougall, y_high_McDougall, color='blue', alpha=0.2)
-plt.plot(x, y_med_McDougall, color='blue', label = 'McDougall 2025 fit')
-plt.plot(x, y_s_lo_McDougall, color = 'blue', ls = '--', alpha = 0.5)
-plt.plot(x, y_s_hi_McDougall, color = 'blue', ls = '--', alpha = 0.5)
-plt.legend(loc = 'upper left')
-plt.tick_params(which='major', direction='in')
-plt.tick_params(which='minor', direction='in')
+fig, ax = plt.subplots(figsize=SINGLE_COL_FIGSIZE, constrained_layout=True)
+
+ax.set_xscale("log")
+ax.set_yscale("log")
+
+datasets = [
+    ("Penton 2025", L_Penton2025, lag_Penton2025,
+     L_error_Penton2025, [lag_error_minus_Penton2025, lag_error_plus_Penton2025],
+     "xkcd:off blue"),
+    ('Lira 2018', L_Lira2018, lag_Lira2018, 
+     L_error_Lira2018, [lag_error_minus_Lira2018, lag_error_plus_Lira2018],
+     '#ff830c'),
+    ("Kaspi 2021", L_Kaspi2021, lag_Kaspi2021,
+     L_error_Kaspi2021, [lag_error_minus_Kaspi2021, lag_error_plus_Kaspi2021],
+     "#5dc154"),
+    ("Shen 2024", L_Shen2024, lag_Shen2024,
+     L_error_Shen2024, [lag_error_minus_Shen2024, lag_error_plus_Shen2024],
+     "#d80e48"),
+]
+
+for label, L, R, Lerr, Rerr, color in datasets:
+    ax.errorbar(
+        L, R,
+        xerr=Lerr,
+        yerr=Rerr,
+        fmt="o",
+        ms=3.5,
+        mfc="white",
+        mec=color,
+        mew=0.8,
+        ecolor=color,
+        elinewidth=0.7,
+        capsize=3,
+        alpha=0.85,
+        ls="none",
+        label=label,
+        zorder=3,
+    )
+
+fits = [
+    ("Shen 2024 fit", x, y_med_Shen24, y_low_Shen24, y_high_Shen24, "#d80e48"),
+    ("McDougall 2025 fit", x, y_med_McDougall, y_low_McDougall, y_high_McDougall, "tab:blue"),
+    ("Lira 2018 fit", x, y_med_Lira18, y_low_Lira18, y_high_Lira18, "#ff830c"),
+    ('Kaspi 2021 fit', x, y_med_Kaspi21, y_low_Kaspi21, y_high_Kaspi21, '#5dc154')
+]
+
+for label, xx, ymed, ylo, yhi, color in fits:
+    ax.fill_between(
+        xx, ylo, yhi,
+        color=color,
+        alpha=0.12,
+        linewidth=0,
+        zorder=1,
+    )
+    ax.plot(
+        xx, ymed,
+        color=color,
+        lw=1.4,
+        label=label,
+        zorder=2,
+    )
+
+ax.set_xlim(4e-5, 1e4)
+ax.set_ylim(1e-2, 7e3)
+
+ax.set_xlabel(r"$\lambda L_{\lambda}(1350\,\AA)/(\mathrm{erg\,s^{-1}})$")
+ax.set_ylabel(r"$R_{\mathrm{C\,IV}}$ [light-days]")
+
+ax.tick_params(which="both", direction="in", top=True, right=True)
+
+ax.legend(
+    loc="upper left",
+    frameon=True,
+    framealpha=0.85,
+    facecolor="white",
+    edgecolor="none",
+    ncol=2,
+    fontsize=6,
+    handlelength=1.2,
+    columnspacing=0.6,
+    labelspacing=0.20,
+    borderpad=0.20,
+)
+
+ax = plt.gca()
+ax.xaxis.set_major_formatter(
+    FuncFormatter(lambda val, pos: rf'$10^{{{int(np.log10(val*1e44))}}}$')
+)
 plt.show()
-
