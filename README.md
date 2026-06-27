@@ -58,7 +58,7 @@ With `ICCF_bias.py` the optimized settings for the ICCF algorithm was configured
 `RM_scout.py` allows the user to test RM observational parameters to quantify the recoverability of the ICCF algorithm for a specific object,
 based on the redshift and luminosity.
 <p align="center">
-  <img src="results/figures/md_fig/rm_scout.png" width="300">
+  <img src="results/figures/md_fig/rm_scout.png" width="700">
 </p>
 ---
 
