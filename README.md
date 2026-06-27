@@ -37,7 +37,15 @@ The reverberation mapping database content and the additional readme.txt file co
 
 ## Example Usage
 
-Example scripts demonstrating how to access and analyse the database are provided in the `examples/` directory.
+In the `examples/` directory we provide example scripts demonstrating how to access and use the database,
+for example on how to compile these R-L figures.
+<p align="center">
+  <img src="results/figures/md_fig/rl_hb.png" width="700">
+</p>
+
+<p align="center">
+  <b>Figure S1.</b> Distribution of simulation outcomes for the baseline experiment.
+</p>
 
 ---
 
