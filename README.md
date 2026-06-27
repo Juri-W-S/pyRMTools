@@ -29,7 +29,7 @@ This repository contains the database, source code, and supplementary material r
 
 ---
 
-## Dataset
+## Database
 
 The reverberation mapping database content and the additional readme.txt file containing important supplementary information about contents in the database are available in the `database/data/` directory. Python utility functions to simplify the use of common data retrival tasks can be found in `database/help_functions/`. In `database/examples/` we provide a few examples on how the database can be used, for example to create the figures of the R-L relation in different atomic lines.
 
