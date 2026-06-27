@@ -49,8 +49,17 @@ For example on how to compile these R-L figures:
 
 ## Reproducibility
 
-All code used to generate the results presented in the manuscript can be found in the `reproduction/` directory.
+All code used to generate the results presented in the manuscript can be found in the `simulation_code/` directory.
 
+With `ICCF_bias.py` the optimized settings for the ICCF algorithm was configured.
+
+`ICCF_trials.py` contains the code that explored the observational parameter space to quantify the recoverability of the ICCF algorithm.
+
+`RM_scout.py` allows the user to test RM observational parameters to quantify the recoverability of the ICCF algorithm for a specific object,
+based on the redshift and luminosity.
+<p align="center">
+  <img src="results/figures/md_fig/rm_scout.png" width="300">
+</p>
 ---
 
 ## Supplementary Material
