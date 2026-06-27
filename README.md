@@ -60,11 +60,12 @@ based on the redshift and luminosity.
 <p align="center">
   <img src="results/figures/md_fig/rm_scout.png" width="700">
 </p>
+
 ---
 
 ## Supplementary Material
 
-Additional figures, tables and analyses not included in the manuscript are available in `results/`.
+Additional figures and tables, e.g. Table A.1, not included in the manuscript in full size and length are available in `results/`.
 
 ---
 
