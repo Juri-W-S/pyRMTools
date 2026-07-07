@@ -1,0 +1,24 @@
+[build-system]
+requires = ['setuptools>=65']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'pyRMTools'
+version = '1.0.0'
+description = 'Python tools for reverberation mapping analysis'
+authors = [
+    {name = 'Juri W. Seib', email = 'seib@thphys.uni-heidelberg.de'}
+]
+
+readme = 'README.md'
+
+requires-python = '>=3.9'
+
+dependencies = [
+    'numpy',
+    'scipy',
+    'matplotlib',
+    'pymongo',
+    'astropy',
+    'stingray'
+]
