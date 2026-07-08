@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from importlib.resources import files
 import json
 from .agn import AGN
 from .publication_view.publication_view import PublicationReferenceView
@@ -7,6 +8,8 @@ from .measurements.linewidth import LineWidthCollection
 from .measurements.luminosity import LuminosityCollection
 from .measurements.mass import MassCollection
 from .measurements.vp import VPCollection
+
+default_database = files("pyRMTools.data") / "quasar_db.objects.json"
 
 class Database:
 
@@ -18,7 +21,11 @@ class Database:
 
         return cls(data)
     @classmethod
-    def from_json(cls, filename):
+    def from_json(cls, filename = None):
+
+        if filename is None:
+            filename = files("pyRMTools.data") / "quasar_db.objects.json"
+            
         with open(filename) as f:
             data = json.load(f)
         return cls(data)
