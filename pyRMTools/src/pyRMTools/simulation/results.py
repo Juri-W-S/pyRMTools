@@ -22,10 +22,10 @@ class ScoutResult:
         return np.median(self.recovered_lags)
     @property
     def error_plus(self):
-        return np.percentile(self.recovered_lags,84)
+        return np.percentile(self.recovered_lags,84)-self.lag
     @property
     def error_minus(self):
-        return np.percentile(self.recovered_lags,16)
+        return self.lag-np.percentile(self.recovered_lags,16)
 
     @property
     def bias(self):
