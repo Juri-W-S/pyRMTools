@@ -35,7 +35,7 @@ class ScoutPlotter:
             fig, ax = plt.subplots(figsize = (10,8))
 
         ax.errorbar(self.result.luminosity / 1e44, self.result.lag, yerr = [[self.result.error_minus], [self.result.error_plus]], label = 'Simulated result', fmt = 'x', elinewidth=1, capsize = 3, color = '#fc0cff')
-        ax.scatter(self.result.luminosity / 1e44, self.result.expected_lag / (1+self.result.z), marker = r'$\Delta$', label = 'Expected result', color = '#0e48c3', s = 100)
+        ax.scatter(self.result.luminosity / 1e44, self.result.expected_lag , marker = r'$\Delta$', label = 'Expected result', color = '#0e48c3', s = 100)
         ax.plot(luminosities / 1e44, lags, label = 'Reference R-L relation', color = '#0e48c3')
         ax.legend(loc = 'best')
         ax.set_xscale('log')
