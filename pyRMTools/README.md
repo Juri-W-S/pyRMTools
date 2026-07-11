@@ -1,7 +1,7 @@
 # pyRMTools
 ---
 ## Contents
---
+---
 
 
 
@@ -10,7 +10,7 @@
 
 
 ## API Reference
---
+---
 ### Database
 The `Database` class is the entry point to the reverberation mapping database.
 
@@ -52,7 +52,7 @@ Return a `LagCollection` containing all lag measurements of a given emission lin
 
     lags = db.lag('H_beta')
     
---
+---
 
 `luminosity(wavelength)`
 
@@ -60,7 +60,7 @@ Return a `LuminosityCollection` for all continuum luminosity measurements with w
 
     L = db.luminosity(5100)
     
---
+---
 
 `linewidth(line, linewidth_type, spectrum_type)`
 
@@ -73,7 +73,7 @@ Return a `LineWidthCollection`.
                 )
 supported keywords are `FWHM` or `line dispersion` and `rms` or `mean`.
 
---
+---
 
 `mass(line)`
 
@@ -81,7 +81,8 @@ Return a `MassCollection`.
 
     masses = db.mass('H_beta')
     
---
+---
+
 `vp(line)`
 
 
@@ -89,4 +90,4 @@ Return a `VPCollection`.
 
     vps = db.vp('c4')
     
---
+---
