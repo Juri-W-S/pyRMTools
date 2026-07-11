@@ -369,4 +369,94 @@ Return the total number of measurements from the publication.
 
 ---
 
-### Scout
+### Simulation
+
+`scout(luminosity, z, baseline, cadence, sn, *relation, *alpha, *beta)`
+
+    result = qrm.scout(1e44, 0.02, 400, 2, 120)
+
+Simulation framework of RM campaigns. Returns `ScoutResult`.
+
+---
+
+### ScoutResult
+
+Stores the outcome of a simulated RM campaign.
+
+**Result properties**
+
+    result.luminosity
+
+Returns the input luminosity.
+
+    result.z
+
+Returns the input redshift.
+
+    result.expected_lag
+
+Returns the expected lag of the object in the rest-frame.
+
+    result.recovered_lags
+
+Returns the list of ICCF recovered lags.
+
+    result.iccf_results
+
+Returns the list of ICCF correlation results.
+
+    result.parameters
+
+Returns a dictionary with the simulation parameters.
+
+    result.lag
+
+Returns the median of recovered lags
+
+    result.error_plus
+
+Returns the 84th percentile of the recovered lags minus the median lag.
+
+    result.error_minus
+
+Returns the median lag minus the 16th percentile of the recovered lags.
+
+    result.bias
+
+Returns the bias defined as the fraction of recovered lag and expected lag minus 1.
+
+    result.bias_distribution
+
+Returns the distribution of recovered bias.
+
+    result.outlier_fraction
+
+Returns the fraction of lags that deviate stronger than 0.5 of the absolute bias.
+
+    result.success
+
+Returns the percentage of recovered lags compared to simulated lags.
+
+---
+
+**Plotting**
+
+    result.plot.view()
+
+Overview panel.
+
+    result.plot.lightcurve()
+
+Example simulated light curve.
+
+    result.plot.ccf(*index)
+
+Interpolated cross-correlation function for the 1000 light curves. No index given stacks all 1000 over each other.
+
+    result.plot.histogram()
+
+Recovered lag bias histogram.
+
+    result.plot.rl_plane()
+
+Position in the R-L plane.
