@@ -42,19 +42,25 @@ Return the corresponding `AGN`.
 Return a `PublicationView` containing all measurements originating from a publication.
 
     view = db.publication_view(qrm.link_finder('Bentz2013'))
+    
 --
+
 `lag(line)`
 
 Return a `LagCollection` containing all lag measurements of a given emission line.
 
     lags = db.lag('H_beta')
+    
 --
+
 `luminosity(wavelength)`
 
 Return a `LuminosityCollection` for all continuum luminosity measurements with wavelength in Angström.
 
     L = db.luminosity(5100)
+    
 --
+
 `linewidth(line, linewidth_type, spectrum_type)`
 
 Return a `LineWidthCollection`.
@@ -67,15 +73,19 @@ Return a `LineWidthCollection`.
 supported keywords are `FWHM` or `line dispersion` and `rms` or `mean`.
 
 --
+
 `mass(line)`
 
 Return a `MassCollection`.
 
     masses = db.mass('H_beta')
+    
 --
 `vp(line)`
+
 
 Return a `VPCollection`.
 
     vps = db.vp('c4')
+    
 --
