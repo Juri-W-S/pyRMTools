@@ -42,9 +42,11 @@ The API of this package is explained in *[ABC](DEF) and tutorials regarding the 
 
 To install the latest development version:
 
-git clone https://github.com/Juri-W-S/pyRMTools.git /pyRMTools
-cd pyRMTools
-pip install .
+    git clone https://github.com/Juri-W-S/pyRMTools.git /pyRMTools
+    
+    cd pyRMTools
+    
+    pip install .
 
 The database needs no further data downloads, since it is directly distributed with the package installation.
 
