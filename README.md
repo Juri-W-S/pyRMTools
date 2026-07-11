@@ -6,16 +6,17 @@ Repository accompanying the paper:
 
 ## Overview
 
-This repository contains the database, source code, and supplementary material referred to in the manuscript.
-
+This repository contains the open source `pyRMTools` Python package and supplementary material referred to in the manuscript.
+`pyRMTools` contains the reverberation mapping database and the reverberation mapping planning tool `scout` to support the observational planning of future reverberation mapping campaigns.
 
 ## Repository Structure
 
-| Section         | Description                                             |
-| ----------------| --------------------------------------------------------|
-| database        | Database contents, use examples and utility functions   |
-| results         | Supplementary figures and tables                        |
-| simulation_code | Codes for reproduction and RM-Scout                     |
+| Section        | Description                                                        |
+| ---------------| -------------------------------------------------------------------|
+| pyRMTools      | Database contents, use examples and utility functions              |
+| supplementaries| Supplementary figures and tables                                   |
+| reproduction   | Codes for reproduction and RM-Scout                                |
+| tutorials      | Tutorials for the use of pyRMTools and MongoDB backend installaion |
 
 ---
 
@@ -29,13 +30,23 @@ This repository contains the database, source code, and supplementary material r
 
 ---
 
-## Database
+### pyRMTools
+pyRMTools is a package combining a database of ~1200 AGN studied in reverberation mapping (RM) and a simulation framework of reverberation mapping campaigns.
+The database is accessed by a json archive or a MongoDB backend, the latter needing a seperate installation. It contains all the relevant measurements from RM,
+such as reverberation lags and luminosities, aswell-as characteristic AGN properties such as position and redshift. The simulation framework `scout` can be used
+as a forecast of RM success, aswell-as a first consistency check of published RM data. 
 
-The reverberation mapping database content is available in the `database/data/` directory, together with an additional `readme.txt` file containing important supplementary information.
+The API of this package is explained in *[ABC](DEF) and tutorials regarding the use of the package and installation of the MongoDB backend in *[ABW](GDE).
 
-Python utility functions for common data retrieval tasks can be found in `database/help_functions/`.
+## Installation
 
-The `database/examples/` directory provides examples of how the database can be used, for instance, to create figures of the R–L relation for different atomic lines.
+To install the latest development version:
+
+git clone https://github.com/Juri-W-S/pyRMTools.git /pyRMTools
+cd pyRMTools
+pip install .
+
+The database needs no further data downloads, since it is directly distributed with the package installation.
 
 ---
 
