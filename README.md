@@ -30,7 +30,7 @@ This repository contains the open source `pyRMTools` Python package and suppleme
 
 ---
 
-### pyRMTools
+## pyRMTools
 pyRMTools is a package combining a database of ~1200 AGN studied in reverberation mapping (RM) and a simulation framework of reverberation mapping campaigns.
 The database is accessed by a json archive or a MongoDB backend, the latter needing a seperate installation. It contains all the relevant measurements from RM,
 such as reverberation lags and luminosities, aswell-as characteristic AGN properties such as position and redshift. The simulation framework `scout` can be used
@@ -38,7 +38,7 @@ as a forecast of RM success, aswell-as a first consistency check of published RM
 
 The API of this package is explained in *[ABC](DEF) and tutorials regarding the use of the package and installation of the MongoDB backend in *[ABW](GDE).
 
-## Installation
+### Installation
 
 To install the latest development version:
 
