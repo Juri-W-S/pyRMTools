@@ -1,4 +1,4 @@
-class PublicationReferenceView:
+class PublicationView:
 
     def __init__(self, database, source):
         self.db = database
