@@ -35,7 +35,8 @@ Load the database from a MongoDB instance.
 Return the corresponding `AGN`.
 
     agn = db.get('NGC 5548')
---
+    
+---
 
 `publication_view(source)` 
 
@@ -43,7 +44,7 @@ Return a `PublicationView` containing all measurements originating from a public
 
     view = db.publication_view(qrm.link_finder('Bentz2013'))
     
---
+---
 
 `lag(line)`
 
