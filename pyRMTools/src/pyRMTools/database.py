@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from importlib.resources import files
 import json
 from .agn import AGN
-from .publication_view.publication_view import PublicationReferenceView
+from .publication_view.publication_view import PublicationView
 from .measurements.lag import LagCollection
 from .measurements.linewidth import LineWidthCollection
 from .measurements.luminosity import LuminosityCollection
@@ -88,4 +88,4 @@ class Database:
         return LuminosityCollection(measurements)
     
     def publication_view(self, source):
-        return PublicationReferenceView(self, source)
+        return PublicationView(self, source)
