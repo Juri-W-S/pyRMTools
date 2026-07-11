@@ -10,7 +10,7 @@
 
 
 ## API Reference
----
+
 ### Database
 The `Database` class is the entry point to the reverberation mapping database.
 
@@ -91,3 +91,16 @@ Return a `VPCollection`.
     vps = db.vp('c4')
     
 ---
+
+### AGN
+
+The `AGN` class represents a single object in the database.
+
+| Property   | Description     |
+| ---------- | --------------- |
+| `name`     | List of Object aliases  |
+| `ra`       | `Measurement`: Right ascension  |
+| `dec`      | `Measurement`: Declination     |
+| `position` | `Measurement`: `(ra, dec)`     |
+| `redshift` | `Measurement`: Redshift        |
+
