@@ -22,21 +22,24 @@ This repository contains the open source `pyRMTools` Python package and suppleme
 
 ## Quick Navigation
 
-* [Database contents](database/data/)
-* [Python Examples](database/examples/)
+* [pyRMTools](pyRMTools/)
 * [Reproducibility](simulation_code/)
-* [Supplementary Results](results/)
-* [RM-Scout](simulation_code/check_RM_parameters.py)
+* [Supplementary Material](results/)
+* [Tutorials](tutorials/)
+
 
 ---
 
 ## pyRMTools
+
 pyRMTools is a package combining a database of ~1200 AGN studied in reverberation mapping (RM) and a simulation framework of reverberation mapping campaigns.
 The database is accessed by a json archive or a MongoDB backend, the latter needing a seperate installation. It contains all the relevant measurements from RM,
 such as reverberation lags and luminosities, aswell-as characteristic AGN properties such as position and redshift. The simulation framework `scout` can be used
 as a forecast of RM success, aswell-as a first consistency check of published RM data. 
 
 The API of this package is explained [here](pyRMTools/README.md) and tutorials regarding the use of the package and installation of the MongoDB backend [here](pyRMtools/installing_mongodb_backend.md).
+
+A text file describing some assumptions from publications (e.g. cosmological parameters, host-galaxy subtraction methods, extinction corrections, and calibration choices) is located [here](database/data/readme.txt). Note that the list does not claim completeness since it relies on availability of information in the publication and may be affected by human error. When in doubt about some information, please refer to the publication itself. 
 
 ### Installation
 
@@ -50,13 +53,10 @@ To install the latest development version:
 
 The database needs no further data downloads, since it is directly distributed with the package installation.
 
----
+### Tutorials
 
-## Example Usage
+We provide two tutorials that can be found [here](tutorials/). `pyRMTools_tutorial.ipynb` introduces the used syntax and shows examples how the `pyRMTools` package can be used. `MongoDB_tutorial.py` introduces the MongoDB backend syntax by demonstrating the compilation of these R-L figures.
 
-In the `examples/` directory we provide example scripts demonstrating how to access and use the database.
-
-For example on how to compile these R-L figures:
 <p align="center">
   <img src="results/figures/md_fig/rl_hb.png" width="300">
   <img src="results/figures/md_fig/rl_mg2.png" width="300">
@@ -72,17 +72,11 @@ With `ICCF_bias.py` the optimized settings for the ICCF algorithm was configured
 
 `ICCF_trials.py` contains the code that explored the observational parameter space to quantify the recoverability of the ICCF algorithm.
 
-`RM_scout.py` allows the user to test RM observational parameters to quantify the recoverability of the ICCF algorithm for a specific object,
-based on the redshift and luminosity.
-<p align="center">
-  <img src="results/figures/md_fig/rm_scout.png" width="700">
-</p>
-
 ---
 
 ## Supplementary Material
 
-Additional figures and tables, e.g. Table A.1, not included in the manuscript in full size and length are available in `results/`.
+Additional figures and tables, e.g. Table B.1, not included in the manuscript in full size and length are available in `results/`.
 
 ---
 
