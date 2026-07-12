@@ -36,7 +36,7 @@ The database is accessed by a json archive or a MongoDB backend, the latter need
 such as reverberation lags and luminosities, aswell-as characteristic AGN properties such as position and redshift. The simulation framework `scout` can be used
 as a forecast of RM success, aswell-as a first consistency check of published RM data. 
 
-The API of this package is explained in *[ABC](DEF) and tutorials regarding the use of the package and installation of the MongoDB backend in *[ABW](GDE).
+The API of this package is explained *[here](pyRMTools/README.md) and tutorials regarding the use of the package and installation of the MongoDB backend in *[ABW](GDE).
 
 ### Installation
 
