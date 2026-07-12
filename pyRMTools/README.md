@@ -476,13 +476,11 @@ allows to modify the ICCF centroid calculation parameters. Default values are:
                     'siglevel' :0.95, 
                     'imode': 0}
 
----
 
         qrm.config.xcor[key]
 
 allows to modify the `imode` which is set to 0 per default. Please refer to the pyCCF package for information on this setting.
 
----
 
         qrm.config.scout[key]
 
