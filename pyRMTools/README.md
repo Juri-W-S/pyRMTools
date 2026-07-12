@@ -460,3 +460,37 @@ Recovered lag bias histogram.
     result.plot.rl_plane()
 
 Position in the R-L plane.
+
+---
+
+### Config
+
+The package allows some customization regarding the simulation.
+
+        qrm.config.peakcent[key]
+
+allows to modify the ICCF centroid calculation parameters. Default values are:
+
+        peakcent = {'thres': 0.8,
+                    'sigmode': 0.2,
+                    'siglevel' :0.95, 
+                    'imode': 0}
+
+---
+
+        qrm.config.xcor[key]
+
+allows to modify the `imode` which is set to 0 per default. Please refer to the pyCCF package for information on this setting.
+
+---
+
+        qrm.config.scout[key]
+
+allows to modify the ICCF lag search grid and the amount of simulated light curves N by .scout(). Default values are:
+
+        scout = {'tlag_min_factor': -0.3,
+                 'tlag_max_factor':0.5,
+                 'tunit_factor': 0.8,
+                 'N': 1000}
+
+Note that is only possible to modify the factors on the lag grid. This means, that the min and max search range is still dependent on the baseline and the step size on the cadence. Setting a custom value independent on the observational parameters is not possible.
