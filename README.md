@@ -43,6 +43,8 @@ A text file describing some assumptions from publications (e.g. cosmological par
 
 ### Installation
 
+---
+
 To install the latest development version:
 
     git clone https://github.com/Juri-W-S/pyRMTools.git /pyRMTools
@@ -54,6 +56,8 @@ To install the latest development version:
 The database needs no further data downloads, since it is directly distributed with the package installation.
 
 ### Tutorials
+
+---
 
 We provide two tutorials that can be found [here](tutorials/). `pyRMTools_tutorial.ipynb` introduces the used syntax and shows examples how the `pyRMTools` package can be used. `MongoDB_tutorial.py` introduces the MongoDB backend syntax by demonstrating the compilation of these R-L figures.
 
