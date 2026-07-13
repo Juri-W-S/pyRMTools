@@ -262,6 +262,15 @@ All measurement classes inherit from `Measurement`. The measurements mostly have
 | `name`           | Object aliases                    |
 | `entry`          | Entry dictionary of the database  |
 
+The `source` property is stored as a link to the publication in the backend. To convert the link into the reference string (i.e. Shen2024), simply use
+
+        qrm.reference_finder(measurement.source)
+
+When filtering for a publication this can be reversed by using the reference string to match it to the link in the backend.
+
+        qrm.link_finder('Shen2024')
+
+
 ---
 **Lag**
 
