@@ -1,12 +1,5 @@
 # pyRMTools
 ---
-## Contents
----
-
-
-
-
-
 
 
 ## API Reference
