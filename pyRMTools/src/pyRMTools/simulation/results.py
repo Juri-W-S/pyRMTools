@@ -3,7 +3,7 @@ from .plotting import ScoutPlotter
 
 class ScoutResult:
 
-    def __init__(self,*,luminosity,z,expected_lag,recovered_lags,iccf_results,light_curves, parameters):
+    def __init__(self,*,luminosity,z,expected_lag,recovered_lags,iccf_results,parameters, light_curves = None, light_curve_file = None):
 
         self.luminosity = luminosity
         self.z = z
@@ -12,6 +12,7 @@ class ScoutResult:
         self.recovered_lags = recovered_lags
         self.iccf_results = iccf_results
         self.light_curves = light_curves
+        self.light_curve_file = light_curve_file
 
         self.parameters = parameters
 
@@ -42,6 +43,27 @@ class ScoutResult:
     @property
     def success(self):
         return len(self.recovered_lags) / self.parameters['N'] * 100
+
+    def load(self):
+        if self.light_curves is not None:
+            return self.light_curves
+    
+        if self.light_curve_file is None:
+            raise ValueError(
+                "No light curves were saved. Run scout(save_light_curves='memory') or provide a filename.")
+    
+        data = np.load(self.light_curve_file)
+        t = data['time']
+        continuum = data['continuum']
+        line = data['line']
+        error_cont = data['continuum_error']
+        error_line = data['line_error']
+        self.light_curves = []
+    
+        for i in range(len(continuum)):
+            self.light_curves.append(
+                LightCurve(t,continuum[i],line[i],error_cont[i],error_line[i]))
+        return self.light_curves
     
 class ICCFResult:
 
