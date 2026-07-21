@@ -65,8 +65,25 @@ class ScoutPlotter:
         ax.set_ylabel(r'Correlation')
         ax.tick_params(which='major', direction='in')
         plt.show()
+
+    def light_curve(self, index = None):
+        if self.result.light_curves is None:
+            raise ValueError('No light curves are loaded. Load the files first, or run simulation in "memory" mode')
+        fig, ax = plt.subplots(figsize = (10,8))
+        if index is None:
+            raise ValueError('Please provide a index to view the specific light curve')
+        else:
+            light_curve = self.result.light_curves[index]
+            ax.plot(light_curve.t, light_curve.continuum, label = 'continuum')
+            ax.plot(light_curve.t, light_curve.line, label = 'line')
+        ax.legend(loc = 'best')
+        ax.set_xlabel('T [days]')
+        ax.set_ylabel('Normalized flux')
+        if ax.figure.get_axes() == [ax]:
+            plt.show()
+
     
-    def light_curve(self, ax = None):
+    def mock_light_curve(self, ax = None):
         rms = structure_function(self.result.z, self.result.luminosity, self.result.parameters['baseline']) / np.sqrt(2)
         time, cont, line = generate_lc(self.result.expected_lag*40, self.result.expected_lag, rms)
         t = generate_observations(self.result.parameters['baseline'], self.result.parameters['cadence'])
@@ -109,7 +126,7 @@ class ScoutPlotter:
 
         self.rl_plane(ax = ax1)
         self.bias_histogram(ax = ax2)
-        self.light_curve(ax = ax3)
+        self.mock_light_curve(ax = ax3)
 
         plt.tight_layout()
 
