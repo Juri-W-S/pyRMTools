@@ -67,6 +67,6 @@ def scout(luminosity, z, baseline, cadence, sn, save_light_curves = None, relati
             line_error=np.asarray(line_error))
 
 
-    return ScoutResult(luminosity = luminosity, z=z, expected_lag = lag / (1+z), recovered_lags = recovered_lags, iccf_results = iccf_results,
-                       light_curves = light_curves, light_curve_file=save_light_curves if save_light_curves != 'memory' else None, 
-                       parameters = dict(N = N, baseline = baseline, cadence = cadence, sn=sn, relation = relation, relation_kwargs = relation_kwargs))
+    return ScoutResult(luminosity = luminosity, z=z, expected_lag = lag / (1+z), recovered_lags = recovered_lags, iccf_results = iccf_results, 
+                       parameters = dict(N = N, baseline = baseline, cadence = cadence, sn=sn, relation = relation, relation_kwargs = relation_kwargs),
+                       light_curves = light_curves, light_curve_file=save_light_curves if save_light_curves != 'memory' else None)
