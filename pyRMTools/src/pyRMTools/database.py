@@ -1,5 +1,6 @@
 from importlib.resources import files
 import json
+from pymongo import MongoClient
 from .agn import AGN
 from .publication_view.publication_view import PublicationView
 from .measurements.lag import LagCollection
@@ -13,7 +14,7 @@ default_database = files("pyRMTools.data") / "quasar_db.objects.json"
 class Database:
 
     @classmethod
-    from pymongo import MongoClient
+
     def from_mongodb(cls, url='mongodb://localhost:27017', database = 'quasar_db', collection='objects'):
         client = MongoClient(url)
         db = client[database]
