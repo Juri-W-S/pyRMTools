@@ -1,12 +1,12 @@
 from .algorithm import generate_lc, generate_observations, downsample_lc, peakcent
-from .relations import  rl_relation, structure_function
+from .relations import  linear_rl, structure_function
 import numpy as np
 from .results import ScoutResult, ICCFResult, LightCurve
 from ..config import SimConfig
 
-def scout(luminosity, z, baseline, cadence, sn, relation = rl_relation, alpha = 0.48, beta = 1.45):
+def scout(luminosity, z, baseline, cadence, sn, relation = linear_rl, **relation_kwargs):
     N = SimConfig.scout['N']
-    lag = relation(alpha, beta, luminosity) * (1+z)
+    lag = relation(L, **relation_kwargs) * (1+z)
     rms = structure_function(z, luminosity, baseline) / np.sqrt(2)
     length = lag * 40 # Accounting for the generation of longer light curves than needed.
 
@@ -39,4 +39,4 @@ def scout(luminosity, z, baseline, cadence, sn, relation = rl_relation, alpha = 
 
 
     return ScoutResult(luminosity = luminosity, z=z, expected_lag = lag / (1+z), recovered_lags = recovered_lags, iccf_results = iccf_results,
-                       light_curves = light_curves, parameters = dict(N = N, baseline = baseline, cadence = cadence, sn=sn, alpha = alpha, beta = beta))
+                       light_curves = light_curves, parameters = dict(N = N, baseline = baseline, cadence = cadence, sn=sn, relation = relation, relation_kwargs = relation_kwargs)
