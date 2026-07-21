@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.gridspec import GridSpec
-from .relations import rl_relation
+from .relations import linear_rl
 from matplotlib.ticker import FuncFormatter
 from .algorithm import generate_lc, generate_observations, downsample_lc
 from .relations import structure_function
@@ -29,8 +29,10 @@ class ScoutPlotter:
 
     def rl_plane(self, ax = None):
         luminosities = np.linspace(self.result.luminosity/1e2, self.result.luminosity*1e2, 100)
-        lags = rl_relation(self.result.parameters['alpha'], self.result.parameters['beta'], luminosities)
-
+        relation = self.result.parameters['relation']
+        kwargs = self.result.parameters['relation_kwargs']
+        lags = relation(luminosities, **kwargs)
+        
         if ax is None:
             fig, ax = plt.subplots(figsize = (10,8))
 
