@@ -39,4 +39,4 @@ def scout(luminosity, z, baseline, cadence, sn, relation = linear_rl, **relation
 
 
     return ScoutResult(luminosity = luminosity, z=z, expected_lag = lag / (1+z), recovered_lags = recovered_lags, iccf_results = iccf_results,
-                       light_curves = light_curves, parameters = dict(N = N, baseline = baseline, cadence = cadence, sn=sn, relation = relation, relation_kwargs = relation_kwargs)
+                       light_curves = light_curves, parameters = dict(N = N, baseline = baseline, cadence = cadence, sn=sn, relation = relation, relation_kwargs = relation_kwargs))
