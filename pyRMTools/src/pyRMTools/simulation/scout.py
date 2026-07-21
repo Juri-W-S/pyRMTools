@@ -6,7 +6,7 @@ from ..config import SimConfig
 
 def scout(luminosity, z, baseline, cadence, sn, relation = linear_rl, **relation_kwargs):
     N = SimConfig.scout['N']
-    lag = relation(L, **relation_kwargs) * (1+z)
+    lag = relation(luminosity, **relation_kwargs) * (1+z)
     rms = structure_function(z, luminosity, baseline) / np.sqrt(2)
     length = lag * 40 # Accounting for the generation of longer light curves than needed.
 
