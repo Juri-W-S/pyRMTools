@@ -1,6 +1,6 @@
 import numpy as np
 
-def linear_rl(L, alpha, beta):
+def linear_rl(L, alpha=0.48, beta=1.45):
     return 10**(beta + alpha*np.log10(L/1e44))
 
 def structure_function(z, L, baseline):
