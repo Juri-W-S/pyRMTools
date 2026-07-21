@@ -4,7 +4,7 @@ import numpy as np
 from .results import ScoutResult, ICCFResult, LightCurve
 from ..config import SimConfig
 
-def scout(luminosity, z, baseline, cadence, sn, relation = linear_rl, **relation_kwargs):
+def scout(luminosity, z, baseline, cadence, sn, save_light_curves = None, relation = linear_rl, **relation_kwargs):
     N = SimConfig.scout['N']
     lag = relation(luminosity, **relation_kwargs) * (1+z)
     rms = structure_function(z, luminosity, baseline) / np.sqrt(2)
@@ -12,7 +12,17 @@ def scout(luminosity, z, baseline, cadence, sn, relation = linear_rl, **relation
 
     recovered_lags = []
     iccf_results = np.empty(N, ICCFResult)
-    light_curves = np.empty(1, LightCurve)
+
+    
+    light_curves = None
+    if save_light_curves == "memory":
+        light_curves = []
+    elif isinstance(save_light_curves, str):
+        time = None
+        continuum = []
+        line = []
+        continuum_error = []
+        line_error = []
 
     for i in range(N):
         time, cont, line = generate_lc(length, lag, rms)
@@ -34,8 +44,27 @@ def scout(luminosity, z, baseline, cadence, sn, relation = linear_rl, **relation
         iccf_results[i] = ICCFResult(lag=ccf_pack[1], r = ccf_pack[0], centroid = tlag_centroid, peak = tlag_peak, success = status_centroid)
         if status_centroid == 1:
             recovered_lags.append(tlag_centroid / (1+z))
+        lc = LightCurve(t, cont_final, line_final, error_cs, error_ls)
+
+        if save_light_curves == 'memory':
+            light_curves.append(lc)
+        elif isinstance(save_light_curves, str):
+            if time is None:
+                time = t.copy()
+            continuum.append(cont_final)
+            line.append(line_final)
+            continuum_error.append(error_cs)
+            line_error.append(error_ls)
     recovered_lags = np.array(recovered_lags)
-    light_curves[0] = LightCurve(t, cont_final, line_final, error_cs, error_ls)
+    
+    if isinstance(save_light_curves, str):
+        np.savez_compressed(
+            save_light_curves,
+            time=time,
+            continuum=np.asarray(continuum),
+            line=np.asarray(line),
+            continuum_error=np.asarray(continuum_error),
+            line_error=np.asarray(line_error))
 
 
     return ScoutResult(luminosity = luminosity, z=z, expected_lag = lag / (1+z), recovered_lags = recovered_lags, iccf_results = iccf_results,
