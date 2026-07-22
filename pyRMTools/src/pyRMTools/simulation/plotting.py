@@ -74,8 +74,8 @@ class ScoutPlotter:
             raise ValueError('Please provide a index to view the specific light curve')
         else:
             light_curve = self.result.light_curves[index]
-            ax.plot(light_curve.t, light_curve.continuum, label = 'continuum')
-            ax.plot(light_curve.t, light_curve.line, label = 'line')
+            ax.plot(light_curve.t, light_curve.continuum_error, label = 'continuum', color = '#ad0ec3', marker = 'x')
+            ax.plot(light_curve.t, light_curve.line_error, label = 'line', color = '#0c88ff', marker = 'x')
         ax.legend(loc = 'best')
         ax.set_xlabel('T [days]')
         ax.set_ylabel('Normalized flux')
