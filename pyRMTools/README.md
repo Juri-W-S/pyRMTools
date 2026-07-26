@@ -373,11 +373,16 @@ Return the total number of measurements from the publication.
 
 ### Simulation
 
-`scout(luminosity, z, baseline, cadence, sn, *relation, *alpha, *beta)`
+`scout(luminosity, z, baseline, cadence, sn, save_light_curves = None, relation = linear_rl, **relation_kwargs)`
 
     result = qrm.scout(1e44, 0.02, 400, 2, 120)
 
 Simulation framework of RM campaigns. Returns `ScoutResult`.
+
+`save_light_curves` saves the simulated light curves if it is not None. The argument 'memory' stores the light curves in the system RAM or a npz file can be saved by providing any other directory-style string ending on .npz. When the light curves are saved as a .npz file, before reviewing them they have to be loaded using `result.load()`.
+
+Different R-L relations can be used in the simulation using the `relation` and `relation_kwargs` parameter. When using the default linear R-L relation, simply use `alpha`, `beta` to change the slope and offset or use define a custom function that has the luminosity as the first argument and else fully customized arguments. They can be default arguments in the definition, or again customized using `relation_kwargs`.
+
 
 ---
 
@@ -447,13 +452,17 @@ Returns the percentage of recovered lags compared to simulated lags.
 
 Overview panel.
 
-    result.plot.lightcurve()
+    result.plot.mock_lightcurve()
 
 Example simulated light curve.
 
-    result.plot.ccf(*index)
+    result.plot.iccf(*index)
 
 Interpolated cross-correlation function for the 1000 light curves. No index given stacks all 1000 over each other.
+
+    result.plot.light_curve(index)
+
+Plot a specified simulated light curve from the simulation. The corresponding ICCF can be accessed as explained above using the same index. See beginning of this section how to save the light curves.
 
     result.plot.histogram()
 
