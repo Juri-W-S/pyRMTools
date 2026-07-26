@@ -8,6 +8,7 @@ from .measurements.linewidth import LineWidthCollection
 from .measurements.luminosity import LuminosityCollection
 from .measurements.mass import MassCollection
 from .measurements.vp import VPCollection
+from ..constants import REFERENCE_TO_LINK
 
 default_database = files("pyRMTools.data") / "quasar_db.objects.json"
 
@@ -90,3 +91,6 @@ class Database:
     
     def publication_view(self, source):
         return PublicationView(self, source)
+
+    def print_publications(self):
+        print(REFERENCE_TO_LINK)
