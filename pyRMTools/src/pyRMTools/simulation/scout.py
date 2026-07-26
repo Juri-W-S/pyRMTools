@@ -18,9 +18,9 @@ def scout(luminosity, z, baseline, cadence, sn, save_light_curves = None, relati
     if save_light_curves == "memory":
         light_curves = []
     elif isinstance(save_light_curves, str):
-        time = None
+        time_save = None
         continuum = []
-        line = []
+        line_save = []
         continuum_error = []
         line_error = []
 
@@ -49,10 +49,10 @@ def scout(luminosity, z, baseline, cadence, sn, save_light_curves = None, relati
         if save_light_curves == 'memory':
             light_curves.append(lc)
         elif isinstance(save_light_curves, str):
-            if time is None:
-                time = t.copy()
+            if time_save is None:
+                time_save = t.copy()
             continuum.append(cont_final)
-            line.append(line_final)
+            line_save.append(line_final)
             continuum_error.append(error_cs)
             line_error.append(error_ls)
     recovered_lags = np.array(recovered_lags)
@@ -60,7 +60,7 @@ def scout(luminosity, z, baseline, cadence, sn, save_light_curves = None, relati
     if save_light_curves != 'memory' and isinstance(save_light_curves, str):
         np.savez_compressed(
             save_light_curves,
-            time=time,
+            time=time_save,
             continuum=np.asarray(continuum),
             line=np.asarray(line),
             continuum_error=np.asarray(continuum_error),
