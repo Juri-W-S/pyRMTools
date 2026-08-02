@@ -47,11 +47,7 @@ A text file describing some assumptions from publications (e.g. cosmological par
 
 To install the latest development version:
 
-    git clone https://github.com/Juri-W-S/pyRMTools.git /pyRMTools
-    
-    cd pyRMTools
-    
-    pip install .
+    pip install "git+https://github.com/Juri-W-S/pyRMTools.git#subdirectory=pyRMTools"
 
 The database needs no further data downloads, since it is directly distributed with the package installation.
 
